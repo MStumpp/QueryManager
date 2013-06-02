@@ -1,0 +1,98 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>QueryManager by MStumpp</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>QueryManager</h1>
+        <p></p>
+
+        <p class="view"><a href="https://github.com/MStumpp/QueryManager">View the Project on GitHub <small>MStumpp/QueryManager</small></a></p>
+
+
+        <ul>
+          <li><a href="https://github.com/MStumpp/QueryManager/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/MStumpp/QueryManager/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/MStumpp/QueryManager">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <h1>
+<a name="create-querymanager-instance" class="anchor" href="#create-querymanager-instance"><span class="octicon octicon-link"></span></a>Create QueryManager instance</h1>
+
+<p>Allocate an instance of the <strong>QueryManager</strong> in the following way.</p>
+
+<pre><code>QueryManager *manager = [QueryManager instance];
+</code></pre>
+
+<h2>
+<a name="configure-querymanager-instance" class="anchor" href="#configure-querymanager-instance"><span class="octicon octicon-link"></span></a>Configure QueryManager instance</h2>
+
+<p>You may set the maximum number of concurrent connections for all queues.</p>
+
+<pre><code>[manager setNumberOfMaxConcurrentConnections:10];
+</code></pre>
+
+<ul>
+<li>numberMaxConcurrent: Maximum number of concurrent connections over all queues. Lowest value is 0. Use <em>tUnlimitedConcurrentConnections</em> for unlimited number of connections. </li>
+</ul><h1>
+<a name="create-queue-instance" class="anchor" href="#create-queue-instance"><span class="octicon octicon-link"></span></a>Create Queue instance</h1>
+
+<p>Allocate an instance of <strong>Queue</strong> in the following way.</p>
+
+<pre><code>Queue *queue = [[Queue instance] initWithIdentifier:@"queue 1" queueMaxSize:tUnlimitedQueueSize numberMaxConcurrent:tUnlimitedConcurrentConnections processOrder:tfifo finishHigherPrioFirst:TRUE pauseWhileLoading:TRUE cancelWhileLoading:TRUE];  
+</code></pre>
+
+<ul>
+<li>identifier: A unique identifier per queue.</li>
+<li>queueMaxSize: Maximum size of a queue, meaning number of Query instances in state <em>initial</em>, <em>loading</em>, <em>pausing</em> or <em>paused</em> (Query instances in state <em>loaded</em>, <em>cancelling</em> or <em>cancelled</em> are not count towards this metric). Use <em>tUnlimitedQueueSize</em> for unlimited number of Query instances. </li>
+<li>numberMaxConcurrent: Maximum number of concurrent connections over all queues. Lowest value is 0. Use <em>tUnlimitedConcurrentConnections</em> for unlimited number of connections. </li>
+<li>processOrder: Order of how Query instances will be processed. Use <em>tfifo</em> for first in first out or <em>tlifo</em> for last in first out.</li>
+<li>finishHigherPrioFirst: </li>
+<li>pauseWhileLoading: Pauses all Query instances which come after the added one, from the other queues as well as the same queue.</li>
+<li>cancelWhileLoading: Cancels all Query instances which come after the added one, from the other queues as well as the same queue.</li>
+</ul><h2>
+<a name="add-queue-instance-to-querymanager" class="anchor" href="#add-queue-instance-to-querymanager"><span class="octicon octicon-link"></span></a>Add Queue instance to QueryManager</h2>
+
+<p>Register a Queue instance and set a priority.</p>
+
+<pre><code>queue = [manager addQueue:queue prio:0];
+</code></pre>
+
+<p>Every QueryManager can have only one instance of Queue of the same priority. </p>
+
+<p>Lowest value for priority is 0 (highest priority).      </p>
+
+<h1>
+<a name="create-query-instance" class="anchor" href="#create-query-instance"><span class="octicon octicon-link"></span></a>Create Query instance</h1>
+
+<pre><code>QueryTicket *ticket = [[queue addQuery:[ConcreteQuery instance] andPrio:0] process:^() {
+
+}];
+</code></pre>
+
+<pre><code>QueryTicket *ticket = [[ConcreteQuery instanceWithQueue:queue andPrio:0] process:^() {
+
+}];
+</code></pre>
+      </section>
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/MStumpp">MStumpp</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
+    </div>
+    <script src="javascripts/scale.fix.js"></script>
+    
+  </body>
+</html>
