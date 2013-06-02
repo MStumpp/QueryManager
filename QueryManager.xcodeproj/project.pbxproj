@@ -10,12 +10,6 @@
 		39374E7616BD5C16004DF1FC /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 39374E7516BD5C16004DF1FC /* UIKit.framework */; };
 		39374E7816BD5C16004DF1FC /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 39374E7716BD5C16004DF1FC /* Foundation.framework */; };
 		39374E7A16BD5C16004DF1FC /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 39374E7916BD5C16004DF1FC /* CoreGraphics.framework */; };
-		39374E8016BD5C16004DF1FC /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 39374E7E16BD5C16004DF1FC /* InfoPlist.strings */; };
-		39374E8216BD5C16004DF1FC /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 39374E8116BD5C16004DF1FC /* main.m */; };
-		39374E8616BD5C16004DF1FC /* PervasiveAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 39374E8516BD5C16004DF1FC /* PervasiveAppDelegate.m */; };
-		39374E8816BD5C16004DF1FC /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 39374E8716BD5C16004DF1FC /* Default.png */; };
-		39374E8A16BD5C16004DF1FC /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 39374E8916BD5C16004DF1FC /* Default@2x.png */; };
-		39374E8C16BD5C16004DF1FC /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 39374E8B16BD5C16004DF1FC /* Default-568h@2x.png */; };
 		39374E9416BD5C16004DF1FC /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 39374E9316BD5C16004DF1FC /* SenTestingKit.framework */; };
 		39374E9516BD5C16004DF1FC /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 39374E7516BD5C16004DF1FC /* UIKit.framework */; };
 		39374E9616BD5C16004DF1FC /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 39374E7716BD5C16004DF1FC /* Foundation.framework */; };
@@ -47,15 +41,6 @@
 		39374E7516BD5C16004DF1FC /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		39374E7716BD5C16004DF1FC /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		39374E7916BD5C16004DF1FC /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
-		39374E7D16BD5C16004DF1FC /* QueryManager-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "QueryManager-Info.plist"; sourceTree = "<group>"; };
-		39374E7F16BD5C16004DF1FC /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		39374E8116BD5C16004DF1FC /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		39374E8316BD5C16004DF1FC /* QueryManager-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "QueryManager-Prefix.pch"; sourceTree = "<group>"; };
-		39374E8416BD5C16004DF1FC /* PervasiveAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PervasiveAppDelegate.h; sourceTree = "<group>"; };
-		39374E8516BD5C16004DF1FC /* PervasiveAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PervasiveAppDelegate.m; sourceTree = "<group>"; };
-		39374E8716BD5C16004DF1FC /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
-		39374E8916BD5C16004DF1FC /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
-		39374E8B16BD5C16004DF1FC /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		39374E9216BD5C16004DF1FC /* QueryManagerTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = QueryManagerTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
 		39374E9316BD5C16004DF1FC /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
 		39374E9B16BD5C16004DF1FC /* QueryManagerTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "QueryManagerTests-Info.plist"; sourceTree = "<group>"; };
@@ -138,9 +123,6 @@
 		39374E7B16BD5C16004DF1FC /* QueryManager */ = {
 			isa = PBXGroup;
 			children = (
-				39374E8416BD5C16004DF1FC /* PervasiveAppDelegate.h */,
-				39374E8516BD5C16004DF1FC /* PervasiveAppDelegate.m */,
-				39374E7C16BD5C16004DF1FC /* Supporting Files */,
 				39374EAA16BD5C6A004DF1FC /* Query.h */,
 				39374EAB16BD5C6A004DF1FC /* Query.m */,
 				39374EAD16BD5C7A004DF1FC /* Queue.h */,
@@ -151,20 +133,6 @@
 				39374EB416BD5CA6004DF1FC /* QueryManager.m */,
 			);
 			path = QueryManager;
-			sourceTree = "<group>";
-		};
-		39374E7C16BD5C16004DF1FC /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				39374E7D16BD5C16004DF1FC /* QueryManager-Info.plist */,
-				39374E7E16BD5C16004DF1FC /* InfoPlist.strings */,
-				39374E8116BD5C16004DF1FC /* main.m */,
-				39374E8316BD5C16004DF1FC /* QueryManager-Prefix.pch */,
-				39374E8716BD5C16004DF1FC /* Default.png */,
-				39374E8916BD5C16004DF1FC /* Default@2x.png */,
-				39374E8B16BD5C16004DF1FC /* Default-568h@2x.png */,
-			);
-			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
 		39374E9916BD5C16004DF1FC /* QueryManagerTests */ = {
@@ -266,10 +234,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				39374E8016BD5C16004DF1FC /* InfoPlist.strings in Resources */,
-				39374E8816BD5C16004DF1FC /* Default.png in Resources */,
-				39374E8A16BD5C16004DF1FC /* Default@2x.png in Resources */,
-				39374E8C16BD5C16004DF1FC /* Default-568h@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -336,8 +300,6 @@
 			files = (
 				39374EE216BEFBBF004DF1FC /* Logger.m in Sources */,
 				39374EC116BD95B0004DF1FC /* QueryConcrete.m in Sources */,
-				39374E8216BD5C16004DF1FC /* main.m in Sources */,
-				39374E8616BD5C16004DF1FC /* PervasiveAppDelegate.m in Sources */,
 				39374EAC16BD5C6A004DF1FC /* Query.m in Sources */,
 				39374EAF16BD5C7A004DF1FC /* Queue.m in Sources */,
 				39374EB216BD5C9A004DF1FC /* QueryTicket.m in Sources */,
@@ -366,14 +328,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		39374E7E16BD5C16004DF1FC /* InfoPlist.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				39374E7F16BD5C16004DF1FC /* en */,
-			);
-			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
 		39374E9C16BD5C16004DF1FC /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
