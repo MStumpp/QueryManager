@@ -16,11 +16,11 @@ typedef void(^QueryCompletionHandler)(int state, id data, NSError *error);
 
 @interface Query : NSObject
 
-@property (nonatomic, retain) Queue* queue;
-@property int prio;
-@property int state;
-@property id data;
-@property QueryCompletionHandler handler;
+@property (nonatomic, assign) Queue* queue;
+@property (nonatomic, assign) int prio;
+@property (nonatomic, assign) int state;
+@property (nonatomic, assign) id data;
+@property (nonatomic, assign) QueryCompletionHandler handler;
 
 +(Query*)instanceWithQueue:(Queue*)queue;
 -(QueryTicket*) process:(id)data onCompletion:(QueryCompletionHandler)handler;

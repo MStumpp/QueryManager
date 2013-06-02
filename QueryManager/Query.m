@@ -12,7 +12,7 @@
 
 +(Query*)instanceWithQueue:(Queue*)queue
 {
-    Query *instance = [[super allocWithZone:NULL] init];
+    Query *instance = [[self allocWithZone:NULL] init];
     instance.state = tUninitialized;
     [queue addQuery:instance];
     return instance;

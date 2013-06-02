@@ -17,8 +17,8 @@
 
 -(Queue*)initWithIdentifier:(id)identifier queueMaxSize:(int)queueMaxSize numberMaxConcurrent:(int)numberMaxConcurrent processOrder:(int)processOrder finishHigherPrioFirst:(BOOL)finishHigherPrioFirst pauseWhileLoading:(BOOL)pauseWhileLoading cancelWhileLoading:(BOOL)cancelWhileLoading;
 
-@property id identifier;
-@property (nonatomic, retain) QueryManager *queryManager;
+@property (nonatomic, assign) id identifier;
+@property (nonatomic, assign) QueryManager *queryManager;
 @property int prio;
 
 -(QueryTicket*)addQuery:(Query*)query;
