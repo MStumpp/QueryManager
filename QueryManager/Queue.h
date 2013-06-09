@@ -35,4 +35,12 @@
 -(void)stateChangeFrom:(int)from to:(int)to forQuery:(Query*)query;
 -(void)prioChangeFrom:(int)from to:(int)to forQuery:(Query*)query;
 
+// new
+-(void)setQueueMaxSize:(int)maxQueueSize;
+-(void)setNumberMaxConcurrent:(int)maxConc;
+-(void)setProcessOrder:(int)processOrder;
+-(void)setFinishHigherPrioFirst:(bool)finishHigherPrioFirst;
+-(void)setPauseWhileLoading:(bool)pauseWhileLoading;
+-(void)setCancelWhileLoading:(bool)cancelWhileLoading;
+
 @end

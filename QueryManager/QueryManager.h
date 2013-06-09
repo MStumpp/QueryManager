@@ -44,15 +44,14 @@
 @interface QueryManager : NSObject
 
 +(QueryManager*)instance;
-
--(Queue*)addQueue:(Queue*)queue prio:(uint)prio;
--(QueryTicket*)process:(Query*)query prio:(uint)prio queue:(Queue*)queue;
+-(void)setNumberOfMaxConcurrentConnections:(int)maxConc;
+-(Queue*)getQueueWithPrio:(uint)prio andIdentifier:(NSString*)identifier;
 
 -(void)stateChangeFrom:(int)from to:(int)to forQuery:(Query*)query;
 -(void)prioChangeFrom:(int)from to:(int)to forQuery:(Query*)query;
 
-@property (nonatomic) int maxConcurrentConnections;
-@property (nonatomic) BOOL finishHigherPrioFirst;
-@property (nonatomic) BOOL pauseWhileLoading;
+// appreciated
+-(Queue*)addQueue:(Queue*)queue prio:(uint)prio;
+-(QueryTicket*)process:(Query*)query prio:(uint)prio queue:(Queue*)queue;
 
 @end

@@ -10,7 +10,10 @@
 
 @interface QueryManager()
 @property (strong, nonatomic) NSMutableDictionary *queues;
-@property int currentConcurrentConnections;
+@property (nonatomic) int maxConcurrentConnections;
+@property (nonatomic) int currentConcurrentConnections;
+@property (nonatomic) BOOL finishHigherPrioFirst;
+@property (nonatomic) BOOL pauseWhileLoading;
 @end
 
 @implementation QueryManager
