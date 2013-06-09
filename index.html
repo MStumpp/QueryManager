@@ -65,37 +65,37 @@
 <li>
 <p>queueMaxSize: Maximum size of a queue, meaning number of Query instances in state <em>initial</em>, <em>loading</em>, <em>pausing</em> or <em>paused</em> (Query instances in state <em>loaded</em>, <em>cancelling</em> or <em>cancelled</em> are not count towards this metric). Use <em>tUnlimitedQueueSize</em> for unlimited number of Query instances. (defaults to: tUnlimitedQueueSize)</p>
 
-<pre><code>[queue queueMaxSize:tUnlimitedQueueSize]; 
+<pre><code>[queue setQueueMaxSize:tUnlimitedQueueSize]; 
 </code></pre>
 </li>
 <li>
 <p>numberMaxConcurrent: Maximum number of concurrent connections over all queues. Lowest value is 0. Use <em>tUnlimitedConcurrentConnections</em> for unlimited number of connections. (defaults to: tUnlimitedConcurrentConnections)</p>
 
-<pre><code>[queue numberMaxConcurrent:tUnlimitedConcurrentConnections]; 
+<pre><code>[queue setNumberMaxConcurrent:tUnlimitedConcurrentConnections]; 
 </code></pre>
 </li>
 <li>
 <p>processOrder: Order of how Query instances will be processed. Use <em>tfifo</em> for first in first out or <em>tlifo</em> for last in first out. (defaults to: tfifo)</p>
 
-<pre><code>[queue processOrder:tfifo]; 
+<pre><code>[queue setProcessOrder:tfifo]; 
 </code></pre>
 </li>
 <li>
 <p>finishHigherPrioFirst. (defaults to: false) </p>
 
-<pre><code>[queue finishHigherPrioFirst:TRUE]; 
+<pre><code>[queue setFinishHigherPrioFirst:TRUE]; 
 </code></pre>
 </li>
 <li>
 <p>pauseWhileLoading: Pauses all Query instances which come after the added one, from the other queues as well as the same queue. (defaults to: false)</p>
 
-<pre><code>[queue pauseWhileLoading:TRUE]; 
+<pre><code>[queue setPauseWhileLoading:TRUE]; 
 </code></pre>
 </li>
 <li>
 <p>cancelWhileLoading: Cancels all Query instances which come after the added one, from the other queues as well as the same queue. (defaults to: false)</p>
 
-<pre><code>[queue cancelWhileLoading:TRUE];  
+<pre><code>[queue setCancelWhileLoading:TRUE];  
 </code></pre>
 </li>
 </ul><h2>
