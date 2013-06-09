@@ -45,7 +45,8 @@
 
 +(QueryManager*)instance;
 -(void)setNumberOfMaxConcurrentConnections:(int)maxConc;
--(Queue*)getQueueWithPrio:(uint)prio andIdentifier:(NSString*)identifier;
+-(Queue*)initQueueWithPrio:(uint)prio andIdentifier:(NSString*)identifier;
+-(Queue*)getQueueWithIdentifier:(NSString*)identifier;
 
 -(void)stateChangeFrom:(int)from to:(int)to forQuery:(Query*)query;
 -(void)prioChangeFrom:(int)from to:(int)to forQuery:(Query*)query;
