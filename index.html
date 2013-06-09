@@ -51,14 +51,20 @@
 
 <p>Allocate an instance of <strong>Queue</strong> in the following way.</p>
 
-<pre><code>Queue *queue = [manager getQueueWithPrio:1 andIdentifier:@"queue 1"]
+<pre><code>Queue *queue = [manager initQueueWithPrio:1 andIdentifier:@"queue 1"]
 </code></pre>
 
 <ul>
 <li>prio: Only one prio of same value per manager. Lowest value for priority is 0 (highest priority).<br>
 </li>
 <li>identifier: A unique identifier per queue.</li>
-</ul><h3>
+</ul><h2>
+<a name="get-queue-instance-from-querymanager" class="anchor" href="#get-queue-instance-from-querymanager"><span class="octicon octicon-link"></span></a>Get Queue instance from QueryManager</h2>
+
+<pre><code>Queue *queue = [manager getQueueWithIdentifier:@"queue 1"]
+</code></pre>
+
+<h3>
 <a name="configure-queue-instance" class="anchor" href="#configure-queue-instance"><span class="octicon octicon-link"></span></a>Configure Queue instance</h3>
 
 <ul>
