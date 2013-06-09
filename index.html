@@ -51,39 +51,56 @@
 
 <p>Allocate an instance of <strong>Queue</strong> in the following way.</p>
 
-<pre><code>Queue *queue = [[Queue instance] initWithIdentifier:@"queue 1" queueMaxSize:tUnlimitedQueueSize numberMaxConcurrent:tUnlimitedConcurrentConnections processOrder:tfifo finishHigherPrioFirst:TRUE pauseWhileLoading:TRUE cancelWhileLoading:TRUE];  
-</code></pre>
-
 <ul>
-<li>identifier: A unique identifier per queue.</li>
-<li>queueMaxSize: Maximum size of a queue, meaning number of Query instances in state <em>initial</em>, <em>loading</em>, <em>pausing</em> or <em>paused</em> (Query instances in state <em>loaded</em>, <em>cancelling</em> or <em>cancelled</em> are not count towards this metric). Use <em>tUnlimitedQueueSize</em> for unlimited number of Query instances. </li>
-<li>numberMaxConcurrent: Maximum number of concurrent connections over all queues. Lowest value is 0. Use <em>tUnlimitedConcurrentConnections</em> for unlimited number of connections. </li>
-<li>processOrder: Order of how Query instances will be processed. Use <em>tfifo</em> for first in first out or <em>tlifo</em> for last in first out.</li>
-<li>finishHigherPrioFirst: </li>
-<li>pauseWhileLoading: Pauses all Query instances which come after the added one, from the other queues as well as the same queue.</li>
-<li>cancelWhileLoading: Cancels all Query instances which come after the added one, from the other queues as well as the same queue.</li>
-</ul><h2>
-<a name="add-queue-instance-to-querymanager" class="anchor" href="#add-queue-instance-to-querymanager"><span class="octicon octicon-link"></span></a>Add Queue instance to QueryManager</h2>
+<li>prio: Only one prio of same value per manager. Lowest value for priority is 0 (highest priority).<br>
+</li>
+<li>
+<p>identifier: A unique identifier per queue.</p>
 
-<p>Register a Queue instance and set a priority.</p>
-
-<pre><code>queue = [manager addQueue:queue prio:0];
+<pre><code>Queue *queue = [manager getQueueWithPrio:1 andIdentifier:@"queue 1"]
 </code></pre>
+</li>
+<li>
+<p>queueMaxSize: Maximum size of a queue, meaning number of Query instances in state <em>initial</em>, <em>loading</em>, <em>pausing</em> or <em>paused</em> (Query instances in state <em>loaded</em>, <em>cancelling</em> or <em>cancelled</em> are not count towards this metric). Use <em>tUnlimitedQueueSize</em> for unlimited number of Query instances. (defaults to: tUnlimitedQueueSize)</p>
 
-<p>Every QueryManager can have only one instance of Queue of the same priority. </p>
+<pre><code>[queue queueMaxSize:tUnlimitedQueueSize]; 
+</code></pre>
+</li>
+<li>
+<p>numberMaxConcurrent: Maximum number of concurrent connections over all queues. Lowest value is 0. Use <em>tUnlimitedConcurrentConnections</em> for unlimited number of connections. (defaults to: tUnlimitedConcurrentConnections)</p>
 
-<p>Lowest value for priority is 0 (highest priority).      </p>
+<pre><code>[queue numberMaxConcurrent:tUnlimitedConcurrentConnections]; 
+</code></pre>
+</li>
+<li>
+<p>processOrder: Order of how Query instances will be processed. Use <em>tfifo</em> for first in first out or <em>tlifo</em> for last in first out. (defaults to: tfifo)</p>
 
-<h1>
+<pre><code>[queue processOrder:tfifo]; 
+</code></pre>
+</li>
+<li>
+<p>finishHigherPrioFirst. (defaults to: false) </p>
+
+<pre><code>[queue finishHigherPrioFirst:TRUE]; 
+</code></pre>
+</li>
+<li>
+<p>pauseWhileLoading: Pauses all Query instances which come after the added one, from the other queues as well as the same queue. (defaults to: false)</p>
+
+<pre><code>[queue pauseWhileLoading:TRUE]; 
+</code></pre>
+</li>
+<li>
+<p>cancelWhileLoading: Cancels all Query instances which come after the added one, from the other queues as well as the same queue. (defaults to: false)</p>
+
+<pre><code>[queue cancelWhileLoading:TRUE];  
+</code></pre>
+</li>
+</ul><h1>
 <a name="create-query-instance" class="anchor" href="#create-query-instance"><span class="octicon octicon-link"></span></a>Create Query instance</h1>
 
-<pre><code>QueryTicket *ticket = [[queue addQuery:[ConcreteQuery instance] andPrio:0] process:^() {
-
-}];
-</code></pre>
-
-<pre><code>QueryTicket *ticket = [[ConcreteQuery instanceWithQueue:queue andPrio:0] process:^() {
-
+<pre><code>QueryTicket *ticket = [[ConcreteQuery instanceWithQueue:queue] process:^(int state, id data, NSError *error) {
+   ...
 }];
 </code></pre>
       </section>
