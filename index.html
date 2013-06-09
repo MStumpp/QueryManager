@@ -28,16 +28,16 @@
         </ul>
       </header>
       <section>
-        <h1>
-<a name="create-querymanager-instance" class="anchor" href="#create-querymanager-instance"><span class="octicon octicon-link"></span></a>Create QueryManager instance</h1>
+        <h2>
+<a name="create-querymanager-instance" class="anchor" href="#create-querymanager-instance"><span class="octicon octicon-link"></span></a>Create QueryManager instance</h2>
 
 <p>Allocate an instance of the <strong>QueryManager</strong> in the following way.</p>
 
 <pre><code>QueryManager *manager = [QueryManager instance];
 </code></pre>
 
-<h2>
-<a name="configure-querymanager-instance" class="anchor" href="#configure-querymanager-instance"><span class="octicon octicon-link"></span></a>Configure QueryManager instance</h2>
+<h3>
+<a name="configure-querymanager-instance" class="anchor" href="#configure-querymanager-instance"><span class="octicon octicon-link"></span></a>Configure QueryManager instance</h3>
 
 <p>You may set the maximum number of concurrent connections for all queues.</p>
 
@@ -46,20 +46,22 @@
 
 <ul>
 <li>numberMaxConcurrent: Maximum number of concurrent connections over all queues. Lowest value is 0. Use <em>tUnlimitedConcurrentConnections</em> for unlimited number of connections. </li>
-</ul><h1>
-<a name="create-queue-instance" class="anchor" href="#create-queue-instance"><span class="octicon octicon-link"></span></a>Create Queue instance</h1>
+</ul><h2>
+<a name="create-queue-instance" class="anchor" href="#create-queue-instance"><span class="octicon octicon-link"></span></a>Create Queue instance</h2>
 
 <p>Allocate an instance of <strong>Queue</strong> in the following way.</p>
+
+<pre><code>Queue *queue = [manager getQueueWithPrio:1 andIdentifier:@"queue 1"]
+</code></pre>
 
 <ul>
 <li>prio: Only one prio of same value per manager. Lowest value for priority is 0 (highest priority).<br>
 </li>
-<li>
-<p>identifier: A unique identifier per queue.</p>
+<li>identifier: A unique identifier per queue.</li>
+</ul><h3>
+<a name="configure-queue-instance" class="anchor" href="#configure-queue-instance"><span class="octicon octicon-link"></span></a>Configure Queue instance</h3>
 
-<pre><code>Queue *queue = [manager getQueueWithPrio:1 andIdentifier:@"queue 1"]
-</code></pre>
-</li>
+<ul>
 <li>
 <p>queueMaxSize: Maximum size of a queue, meaning number of Query instances in state <em>initial</em>, <em>loading</em>, <em>pausing</em> or <em>paused</em> (Query instances in state <em>loaded</em>, <em>cancelling</em> or <em>cancelled</em> are not count towards this metric). Use <em>tUnlimitedQueueSize</em> for unlimited number of Query instances. (defaults to: tUnlimitedQueueSize)</p>
 
@@ -96,13 +98,16 @@
 <pre><code>[queue cancelWhileLoading:TRUE];  
 </code></pre>
 </li>
-</ul><h1>
-<a name="create-query-instance" class="anchor" href="#create-query-instance"><span class="octicon octicon-link"></span></a>Create Query instance</h1>
+</ul><h2>
+<a name="create-query-instance" class="anchor" href="#create-query-instance"><span class="octicon octicon-link"></span></a>Create Query instance</h2>
 
 <pre><code>QueryTicket *ticket = [[ConcreteQuery instanceWithQueue:queue] process:^(int state, id data, NSError *error) {
    ...
 }];
 </code></pre>
+
+<h2>
+<a name="manage-queryticket" class="anchor" href="#manage-queryticket"><span class="octicon octicon-link"></span></a>Manage QueryTicket</h2>
       </section>
       <footer>
         <p>This project is maintained by <a href="https://github.com/MStumpp">MStumpp</a></p>
