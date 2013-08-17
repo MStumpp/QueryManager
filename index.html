@@ -64,8 +64,43 @@
 <pre><code>Queue *queue = [manager getQueueWithIdentifier:@"queue 1"]
 </code></pre>
 
+<h2>
+<a name="create-query-instance" class="anchor" href="#create-query-instance"><span class="octicon octicon-link"></span></a>Create Query instance</h2>
+
+<pre><code>QueryTicket *ticket = [[ConcreteQuery instanceWithQueue:queue] process:(id)data onCompletion:^(int state, id data, NSError *error) {
+   ...
+}];
+</code></pre>
+
+<h2>
+<a name="query-implementation" class="anchor" href="#query-implementation"><span class="octicon octicon-link"></span></a>Query implementation</h2>
+
+<pre><code>@interface ConcreteQuery : Query
+@end
+
+@implementation ConcreteQuery
+-(void)load:(id)data
+{
+    ... do stuff, then call
+    [self loadedWithData:data andError:nil];
+}
+
+-(void)pause:(id)data
+{
+    ... do stuff, then call
+    [self pausedWithData:data andError:nil];
+}
+
+-(void)cancel:(id)data
+{
+    ... do stuff, then call
+    [self cancelledWithData:data andError:nil];
+}
+@end
+</code></pre>
+
 <h3>
-<a name="configure-queue-instance" class="anchor" href="#configure-queue-instance"><span class="octicon octicon-link"></span></a>Configure Queue instance</h3>
+<a name="feature-candidates" class="anchor" href="#feature-candidates"><span class="octicon octicon-link"></span></a>Feature Candidates</h3>
 
 <ul>
 <li>
@@ -104,16 +139,7 @@
 <pre><code>[queue setCancelWhileLoading:TRUE];  
 </code></pre>
 </li>
-</ul><h2>
-<a name="create-query-instance" class="anchor" href="#create-query-instance"><span class="octicon octicon-link"></span></a>Create Query instance</h2>
-
-<pre><code>QueryTicket *ticket = [[ConcreteQuery instanceWithQueue:queue] process:^(int state, id data, NSError *error) {
-   ...
-}];
-</code></pre>
-
-<h2>
-<a name="manage-queryticket" class="anchor" href="#manage-queryticket"><span class="octicon octicon-link"></span></a>Manage QueryTicket</h2>
+</ul>
       </section>
       <footer>
         <p>This project is maintained by <a href="https://github.com/MStumpp">MStumpp</a></p>
