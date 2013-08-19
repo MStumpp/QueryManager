@@ -9,36 +9,16 @@
 #import <Foundation/Foundation.h>
 #import "QueryManager.h"
 
-typedef void(^QueryCompletionHandler)(int state, id data, NSError *error);
+typedef void(^QueryCompletionHandler)(NSString *state, id data, NSError *error);
 
 @class Queue;
-@class QueryTicket;
 
-@interface Query : NSObject
-
-@property (nonatomic, assign) Queue* queue;
-@property (nonatomic, assign) int prio;
-@property (nonatomic, assign) int state;
-@property (nonatomic, assign) id data;
-@property (nonatomic, assign) QueryCompletionHandler handler;
-
+@interface Query : NSOperation
 +(Query*)instanceWithQueue:(Queue*)queue;
--(QueryTicket*) process:(id)data onCompletion:(QueryCompletionHandler)handler;
-
--(BOOL)inState:(int)state;
--(BOOL)toState:(int)state;
--(BOOL)inState:(int)from toState:(int)to;
--(BOOL)do:(uint)action;
-
--(BOOL)inPrio:(uint)p;
--(void)toPrio:(uint)p;
-
--(void)load:(id)data;
--(void)pause:(id)data;
--(void)cancel:(id)data;
-
--(void)loadedWithData:(id)entry andError:(NSError*)error;
--(void)pausedWithData:(id)entry andError:(NSError*)error;
--(void)cancelledWithData:(id)entry andError:(NSError*)error;
-
+-(Query*)execute:(id)data onCompletion:(QueryCompletionHandler)handler;
+-(void)loadedWithData:(id)data andError:(NSError*)error;
+-(void)setData:(id)data;
+-(void)setError:(NSError*)error;
+-(id)getData;
+-(NSError*)getError;
 @end

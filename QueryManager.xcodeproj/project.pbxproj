@@ -17,7 +17,6 @@
 		39374EA116BD5C16004DF1FC /* QueryManagerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 39374EA016BD5C16004DF1FC /* QueryManagerTests.m */; };
 		39374EAC16BD5C6A004DF1FC /* Query.m in Sources */ = {isa = PBXBuildFile; fileRef = 39374EAB16BD5C6A004DF1FC /* Query.m */; };
 		39374EAF16BD5C7A004DF1FC /* Queue.m in Sources */ = {isa = PBXBuildFile; fileRef = 39374EAE16BD5C7A004DF1FC /* Queue.m */; };
-		39374EB216BD5C9A004DF1FC /* QueryTicket.m in Sources */ = {isa = PBXBuildFile; fileRef = 39374EB116BD5C9A004DF1FC /* QueryTicket.m */; };
 		39374EB516BD5CA6004DF1FC /* QueryManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 39374EB416BD5CA6004DF1FC /* QueryManager.m */; };
 		39374EB816BD5D0D004DF1FC /* QueryConcrete.m in Sources */ = {isa = PBXBuildFile; fileRef = 39374EB716BD5D0D004DF1FC /* QueryConcrete.m */; };
 		39374EC116BD95B0004DF1FC /* QueryConcrete.m in Sources */ = {isa = PBXBuildFile; fileRef = 39374EB716BD5D0D004DF1FC /* QueryConcrete.m */; };
@@ -51,8 +50,6 @@
 		39374EAB16BD5C6A004DF1FC /* Query.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Query.m; sourceTree = "<group>"; };
 		39374EAD16BD5C7A004DF1FC /* Queue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Queue.h; sourceTree = "<group>"; };
 		39374EAE16BD5C7A004DF1FC /* Queue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Queue.m; sourceTree = "<group>"; };
-		39374EB016BD5C9A004DF1FC /* QueryTicket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QueryTicket.h; sourceTree = "<group>"; };
-		39374EB116BD5C9A004DF1FC /* QueryTicket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QueryTicket.m; sourceTree = "<group>"; };
 		39374EB316BD5CA6004DF1FC /* QueryManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QueryManager.h; sourceTree = "<group>"; };
 		39374EB416BD5CA6004DF1FC /* QueryManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QueryManager.m; sourceTree = "<group>"; };
 		39374EB616BD5D0D004DF1FC /* QueryConcrete.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = QueryConcrete.h; path = QueryManagerTests/QueryConcrete.h; sourceTree = SOURCE_ROOT; };
@@ -127,8 +124,6 @@
 				39374EAB16BD5C6A004DF1FC /* Query.m */,
 				39374EAD16BD5C7A004DF1FC /* Queue.h */,
 				39374EAE16BD5C7A004DF1FC /* Queue.m */,
-				39374EB016BD5C9A004DF1FC /* QueryTicket.h */,
-				39374EB116BD5C9A004DF1FC /* QueryTicket.m */,
 				39374EB316BD5CA6004DF1FC /* QueryManager.h */,
 				39374EB416BD5CA6004DF1FC /* QueryManager.m */,
 			);
@@ -302,7 +297,6 @@
 				39374EC116BD95B0004DF1FC /* QueryConcrete.m in Sources */,
 				39374EAC16BD5C6A004DF1FC /* Query.m in Sources */,
 				39374EAF16BD5C7A004DF1FC /* Queue.m in Sources */,
-				39374EB216BD5C9A004DF1FC /* QueryTicket.m in Sources */,
 				39374EB516BD5CA6004DF1FC /* QueryManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

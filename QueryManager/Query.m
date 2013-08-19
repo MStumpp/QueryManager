@@ -8,200 +8,110 @@
 
 #import "Query.h"
 
+@interface Query()
+@property (nonatomic, assign) Queue* queue;
+@property (nonatomic, assign) id data;
+@property (nonatomic, assign) NSError *error;
+@property (nonatomic, copy) QueryCompletionHandler handler;
+@property dispatch_semaphore_t sema;
+@end
+
 @implementation Query
 
 +(Query*)instanceWithQueue:(Queue*)queue
 {
-    Query *instance = [[self allocWithZone:NULL] init];
-    instance.state = tUninitialized;
-    [queue addQuery:instance];
+    Query *instance = [self new];
+    instance.queue = queue;
+    [instance addObserver:instance forKeyPath:tCancelled options:NSKeyValueObservingOptionNew context:NULL];
+    [instance addObserver:instance forKeyPath:tFinished options:NSKeyValueObservingOptionNew context:NULL];
     return instance;
 }
 
--(QueryTicket*) process:(id)data onCompletion:(QueryCompletionHandler)handler;
+-(Query*)execute:(id)data onCompletion:(QueryCompletionHandler)handler;
 {
     self.data = data;
     self.handler = handler;
-    [self toState:tUnloaded];
+    [self.queue addOperation:self];
+    return self;
 }
 
--(BOOL)inPrio:(uint)p
+-(void)main
 {
-    return (self.prio == p);
-}
-
--(void)toPrio:(uint)prio
-{
-    if (self.prio != prio)
+    @try
     {
-        int tmpPrio = [self prio];
-        self.prio = prio;
-        if (self.queue)
-            [self.queue prioChangeFrom:tmpPrio to:self.prio forQuery:self];
+        self.sema = dispatch_semaphore_create(1);
+        [self load:self.data];
+        dispatch_semaphore_wait(self.sema, DISPATCH_TIME_FOREVER);
     }
-}
 
--(BOOL)inState:(int)state
-{
-    return (self.state == state);
-}
-
--(BOOL)toState:(int)to
-{
-    return [self inState:tAny toState:to];
-}
-
--(BOOL)inState:(int)from toState:(int)to
-{
-    if (from != tAny && self.state != from)
-        return FALSE;
-    
-    if (self.state == to)
-        return FALSE;
-    
-    BOOL result = FALSE;
-    switch (to)
+    @catch(NSException *e)
     {
-        case tUnloaded:
-        {
-            if (self.state == tUninitialized)
-                result = TRUE;
-            break;
-        }
-
-        case tLoading:
-        {            
-            if (self.state == tUnloaded || self.state == tPaused)
-                result = TRUE;
-            break;
-        }
-            
-        case tLoaded:
-        {
-            if (self.state == tLoading)
-                result = TRUE;
-            break;
-        }
-
-        case tPausing:
-        {
-            if (self.state == tUnloaded || self.state == tLoading)
-                result = TRUE;
-            break;
-        }
-
-        case tPaused:
-        {
-            if (self.state == tPausing)
-                result = TRUE;
-            break;
-        }
-
-        case tCancelling:
-        {
-            if (self.state == tUnloaded || self.state == tPaused || self.state == tLoading)
-                result = TRUE;
-            break;
-        }
-            
-        case tCancelled:
-        {
-            if (self.state == tCancelling)
-                result = TRUE;
-            break;
-        }
-            
-        default:
-        {
-            [NSException raise:NSInvalidArgumentException format:@"other than tLoading, tLoaded, tPaused or tCancelled not supported as to state!"];
-        }
+        // Do not rethrow exceptions.
     }
-    if (result) {
-        int tmpState = self.state;
-        self.state = to;
-        if (self.queue)
-            [self.queue stateChangeFrom:tmpState to:self.state forQuery:self];
-    }
-    return result;
 }
 
-// these actions are usually called by a queue instance
-
--(BOOL)do:(uint)action
+-(void)observeValueForKeyPath:(NSString *)keyPath
+                     ofObject:(id)object
+                       change:(NSDictionary *)change
+                      context:(void *)context
 {
-    BOOL result = FALSE;
-    switch (action)
-    {
-        case tLoad:
-        {
-            if ([self toState:tLoading]) {
-                [self load:self.data];
-                result = TRUE;
-            }
-            break;
-        }
-
-        case tPause:
-        {
-            if ([self toState:tPausing]) {
-                [self pause:self.data];
-                result = TRUE;
-            }
-            break;
-        }
-
-        case tCancel:
-        {
-            if ([self toState:tCancelling]) {
-                [self cancel:self.data];
-                result = TRUE;
-            }
-            break;
-        }
-
-        default:
-        {
-            [NSException raise:NSInvalidArgumentException format:@"other than tLoad, tPause or tCancel not supported as action!"];
-        }
+    if ([keyPath isEqual:tReady]) {
+        self.handler(tReady, self.data, self.error);
+    } else if ([keyPath isEqual:tExecuting]) {
+        self.handler(tExecuting, self.data, self.error);
+    } else if ([keyPath isEqual:tCancelled]) {
+        [self cancelled:self.data];
+        self.handler(tCancelled, self.data, self.error);
+    } else if ([keyPath isEqual:tFinished]) {
+        self.handler(tFinished, self.data, self.error);
     }
-    return result;
+
+    [super observeValueForKeyPath:keyPath
+                         ofObject:object
+                           change:change
+                          context:context];
 }
 
-// these methods must be overwritten by concrete query classes
+-(void)loaded
+{
+    dispatch_semaphore_signal(self.sema);
+}
+
+-(void)setData:(id)data
+{
+    self.data = data;
+}
+
+-(void)setError:(NSError*)error
+{
+    self.error = error;
+}
+
+-(id)getData
+{
+    return self.data;
+}
+
+-(NSError*)getError
+{
+    return self.error;
+}
+
+/////
+// these methods may be overwritten by concrete query classes
+/////
+
+// main operation code goes here
+// check if cancelled [self isCancelled] whenever possible
 
 -(void)load:(id)data
 {
-    [NSException raise:NSInvalidArgumentException format:@"load method must be overwritten!"];
+    return;
 }
 
--(void)pause:(id)data
+-(void)cancelled:(id)data
 {
-    [NSException raise:NSInvalidArgumentException format:@"pause method must be overwritten!"];
-}
-
--(void)cancel:(id)data
-{
-    [NSException raise:NSInvalidArgumentException format:@"cancel method must be overwritten!"];
-}
-
-// these methods are called by load, pause or cancel method code
-
--(void)loadedWithData:(id)entry andError:(NSError*)error
-{
-    if ([self toState:tLoaded])
-        self.handler(tLoaded, entry, error);
-}
-
--(void)pausedWithData:(id)entry andError:(NSError*)error
-{
-    if ([self toState:tPaused])
-        self.handler(tPaused, entry, error);
-}
-
--(void)cancelledWithData:(id)entry andError:(NSError*)error
-{
-    if ([self toState:tCancelled])
-        self.handler(tCancelled, entry, error);
+    return;
 }
 
 @end
