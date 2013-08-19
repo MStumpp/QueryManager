@@ -95,12 +95,12 @@
     self.error = error;
 }
 
--(id)getData
+-(id)data
 {
     return self.data;
 }
 
--(NSError*)getError
+-(NSError*)error
 {
     return self.error;
 }
