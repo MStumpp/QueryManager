@@ -29,118 +29,98 @@
       </header>
       <section>
         <h2>
-<a name="create-querymanager-instance" class="anchor" href="#create-querymanager-instance"><span class="octicon octicon-link"></span></a>Create QueryManager instance</h2>
+<a name="querymanager" class="anchor" href="#querymanager"><span class="octicon octicon-link"></span></a>QueryManager</h2>
+
+<h3>
+<a name="create-a-new-instance" class="anchor" href="#create-a-new-instance"><span class="octicon octicon-link"></span></a>Create a new instance</h3>
 
 <p>Allocate an instance of the <strong>QueryManager</strong> in the following way.</p>
 
 <pre><code>QueryManager *manager = [QueryManager instance];
 </code></pre>
 
+<h2>
+<a name="queue" class="anchor" href="#queue"><span class="octicon octicon-link"></span></a>Queue</h2>
+
 <h3>
-<a name="configure-querymanager-instance" class="anchor" href="#configure-querymanager-instance"><span class="octicon octicon-link"></span></a>Configure QueryManager instance</h3>
-
-<p>You may set the maximum number of concurrent connections for all queues.</p>
-
-<pre><code>[manager setNumberOfMaxConcurrentConnections:10];
-</code></pre>
-
-<ul>
-<li>numberMaxConcurrent: Maximum number of concurrent connections over all queues. Lowest value is 0. Use <em>tUnlimitedConcurrentConnections</em> for unlimited number of connections. </li>
-</ul><h2>
-<a name="create-queue-instance" class="anchor" href="#create-queue-instance"><span class="octicon octicon-link"></span></a>Create Queue instance</h2>
+<a name="create-a-new-instance-1" class="anchor" href="#create-a-new-instance-1"><span class="octicon octicon-link"></span></a>Create a new instance</h3>
 
 <p>Allocate an instance of <strong>Queue</strong> in the following way.</p>
 
-<pre><code>Queue *queue = [manager initQueueWithPrio:1 andIdentifier:@"queue 1"]
+<pre><code>Queue *queue = [manager initQueueWithName:@"queue1"]
 </code></pre>
 
 <ul>
-<li>prio: Only one prio of same value per manager. Lowest value for priority is 0 (highest priority).<br>
-</li>
-<li>identifier: A unique identifier per queue.</li>
-</ul><h2>
-<a name="configure-queue-instance" class="anchor" href="#configure-queue-instance"><span class="octicon octicon-link"></span></a>Configure Queue instance</h2>
+<li>name: A unique name per queue.</li>
+</ul><h3>
+<a name="retrieve-an-instance" class="anchor" href="#retrieve-an-instance"><span class="octicon octicon-link"></span></a>Retrieve an instance</h3>
 
-<pre><code>[queue setQueueMaxSize:tUnlimitedQueueSize]; 
+<pre><code>Queue *queue = [manager queueWithName:@"queue1"]
 </code></pre>
+
+<h3>
+<a name="properties-of-an-instance" class="anchor" href="#properties-of-an-instance"><span class="octicon octicon-link"></span></a>Properties of an instance</h3>
 
 <ul>
-<li>queueMaxSize: Maximum size of a queue, meaning number of Query instances in state <em>initial</em>, <em>loading</em>, <em>pausing</em> or <em>paused</em> (Query instances in state <em>loaded</em>, <em>cancelling</em> or <em>cancelled</em> are not count towards this metric). Use <em>tUnlimitedQueueSize</em> for unlimited number of Query instances. (defaults to: tUnlimitedQueueSize)</li>
-</ul><h2>
-<a name="retrieve-queue-instance" class="anchor" href="#retrieve-queue-instance"><span class="octicon octicon-link"></span></a>Retrieve Queue instance</h2>
+<li>(NSArray*)operations: Queries in the queue.</li>
+<li>(NSUInteger)operationCount: Number of queries in the queue.</li>
+<li>(NSInteger)maxConcurrentOperationCount: Maximum of concurrent executing queries.</li>
+<li>(BOOL)isSuspended: True if a queue is suspended, false otherwise.</li>
+</ul><h3>
+<a name="actions-on-an-instance" class="anchor" href="#actions-on-an-instance"><span class="octicon octicon-link"></span></a>Actions on an instance</h3>
 
-<pre><code>Queue *queue = [manager getQueueWithIdentifier:@"queue 1"]
+<ul>
+<li>(void)cancelAllOperations: Sets all queries in the queue to state "isCancelled".</li>
+<li>(void)setMaxConcurrentOperationCount:(NSInteger)count: Sets the maximum of concurrent executing queries.</li>
+<li>(void)setSuspended:(BOOL)suspend: Suspends (true) or resumes (false) the execution of queries.</li>
+</ul><h2>
+<a name="query" class="anchor" href="#query"><span class="octicon octicon-link"></span></a>Query</h2>
+
+<h3>
+<a name="implement-a-query" class="anchor" href="#implement-a-query"><span class="octicon octicon-link"></span></a>Implement a query</h3>
+
+<pre><code>@interface QueryImpl : Query
+@end
+
+@implementation QueryImpl
+-(void)load:(id)data
+{
+    - do the main stuff
+    - whenever possible, check [self isCancelled], cancel if possible
+    - must call [self loadedWithData:data andError:error] when finished
+}
+
+-(void)cancelled:(id)data
+{
+    - called exactly once
+    - can call setData and/or setError before onCompletion handler gets called
+}
+@end
 </code></pre>
 
-<h2>
-<a name="create-query-instance" class="anchor" href="#create-query-instance"><span class="octicon octicon-link"></span></a>Create Query instance</h2>
+<h3>
+<a name="create-an-instance" class="anchor" href="#create-an-instance"><span class="octicon octicon-link"></span></a>Create an instance</h3>
 
-<pre><code>QueryTicket *ticket = [[ConcreteQuery instanceWithQueue:queue] process:(id)data onCompletion:^(int state, id data, NSError *error) {
+<pre><code>Query *query = [[QueryImpl instanceWithQueue:queue] execute:(id)data onCompletion:^(int state, id data, NSError *error) {
    ...
 }];
 </code></pre>
 
-<h2>
-<a name="query-implementation" class="anchor" href="#query-implementation"><span class="octicon octicon-link"></span></a>Query implementation</h2>
-
-<pre><code>@interface ConcreteQuery : Query
-@end
-
-@implementation ConcreteQuery
--(void)load:(id)data
-{
-    ... do stuff, then call
-    [self loadedWithData:data andError:nil];
-}
-
--(void)pause:(id)data
-{
-    ... do stuff, then call
-    [self pausedWithData:data andError:nil];
-}
-
--(void)cancel:(id)data
-{
-    ... do stuff, then call
-    [self cancelledWithData:data andError:nil];
-}
-@end
-</code></pre>
-
 <h3>
-<a name="feature-candidates" class="anchor" href="#feature-candidates"><span class="octicon octicon-link"></span></a>Feature Candidates</h3>
+<a name="properties-of-an-instance-1" class="anchor" href="#properties-of-an-instance-1"><span class="octicon octicon-link"></span></a>Properties of an instance</h3>
 
 <ul>
-<li>
-<p>numberMaxConcurrent: Maximum number of concurrent connections over all queues. Lowest value is 0. Use <em>tUnlimitedConcurrentConnections</em> for unlimited number of connections. (defaults to: tUnlimitedConcurrentConnections)</p>
+<li>(BOOL)isCancelled: Indicating whether in instance is cancelled.</li>
+<li>(BOOL)isExecuting: Indicating whether in instance is executing.</li>
+<li>(BOOL)isFinished: Indicating whether in instance is finished.</li>
+<li>(BOOL)isReady: Indicating whether in instance is ready.</li>
+<li>(NSOperationQueuePriority)queuePriority: Returns the priority of the query in a queue.</li>
+</ul><h3>
+<a name="actions-on-an-instance-1" class="anchor" href="#actions-on-an-instance-1"><span class="octicon octicon-link"></span></a>Actions on an instance</h3>
 
-<pre><code>[queue setNumberMaxConcurrent:tUnlimitedConcurrentConnections]; 
-</code></pre>
-</li>
-<li>
-<p>processOrder: Order of how Query instances will be processed. Use <em>tfifo</em> for first in first out or <em>tlifo</em> for last in first out. (defaults to: tfifo)</p>
-
-<pre><code>[queue setProcessOrder:tfifo]; 
-</code></pre>
-</li>
-<li>
-<p>finishHigherPrioFirst. (defaults to: false) </p>
-
-<pre><code>[queue setFinishHigherPrioFirst:TRUE]; 
-</code></pre>
-</li>
-<li>
-<p>pauseWhileLoading: Pauses all Query instances which come after the added one, from the other queues as well as the same queue. (defaults to: false)</p>
-
-<pre><code>[queue setPauseWhileLoading:TRUE]; 
-</code></pre>
-</li>
-<li>
-<p>cancelWhileLoading: Cancels all Query instances which come after the added one, from the other queues as well as the same queue. (defaults to: false)</p>
-
-<pre><code>[queue setCancelWhileLoading:TRUE];  
-</code></pre>
-</li>
+<ul>
+<li>(void)cancel: Cancels a query.</li>
+<li>(void)setQueuePriority:(NSOperationQueuePriority)priority: Sets the priority of the query.</li>
 </ul>
       </section>
       <footer>
