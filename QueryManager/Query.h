@@ -16,6 +16,7 @@ typedef void(^QueryCompletionHandler)(NSString *state, id data, NSError *error);
 @interface Query : NSOperation
 +(Query*)instanceWithQueue:(Queue*)queue;
 -(Query*)execute:(id)data onCompletion:(QueryCompletionHandler)handler;
+-(Query*)execute:(id)data withPrio:(NSInteger)p onCompletion:(QueryCompletionHandler)handler;
 -(void)loadedWithData:(id)data andError:(NSError*)error;
 -(void)setData:(id)data;
 -(void)setError:(NSError*)error;

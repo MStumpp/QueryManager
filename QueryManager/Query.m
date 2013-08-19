@@ -22,6 +22,8 @@
 {
     Query *instance = [self new];
     instance.queue = queue;
+    [instance addObserver:instance forKeyPath:tReady options:NSKeyValueObservingOptionNew context:NULL];
+    [instance addObserver:instance forKeyPath:tExecuting options:NSKeyValueObservingOptionNew context:NULL];
     [instance addObserver:instance forKeyPath:tCancelled options:NSKeyValueObservingOptionNew context:NULL];
     [instance addObserver:instance forKeyPath:tFinished options:NSKeyValueObservingOptionNew context:NULL];
     return instance;
@@ -29,8 +31,14 @@
 
 -(Query*)execute:(id)data onCompletion:(QueryCompletionHandler)handler;
 {
+    return [self execute:data withPrio:NSOperationQueuePriorityNormal onCompletion:handler];
+}
+
+-(Query*)execute:(id)data withPrio:(NSInteger)p onCompletion:(QueryCompletionHandler)handler
+{
     self.data = data;
     self.handler = handler;
+    [self setQueuePriority:p];
     [self.queue addOperation:self];
     return self;
 }
