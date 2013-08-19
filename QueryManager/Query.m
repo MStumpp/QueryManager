@@ -29,12 +29,12 @@
     return instance;
 }
 
--(Query*)execute:(id)data onCompletion:(QueryCompletionHandler)handler;
+-(Query*)execute:(id)data onStateChange:(QueryCompletionHandler)handler;
 {
-    return [self execute:data withPrio:NSOperationQueuePriorityNormal onCompletion:handler];
+    return [self execute:data withPrio:NSOperationQueuePriorityNormal onStateChange:handler];
 }
 
--(Query*)execute:(id)data withPrio:(NSInteger)p onCompletion:(QueryCompletionHandler)handler
+-(Query*)execute:(id)data withPrio:(NSInteger)p onStateChange:(QueryCompletionHandler)handler
 {
     self.data = data;
     self.handler = handler;
@@ -63,16 +63,10 @@
                        change:(NSDictionary *)change
                       context:(void *)context
 {
-    if ([keyPath isEqual:tReady]) {
-        self.handler(tReady, self.data, self.error);
-    } else if ([keyPath isEqual:tExecuting]) {
-        self.handler(tExecuting, self.data, self.error);
-    } else if ([keyPath isEqual:tCancelled]) {
+    if ([keyPath isEqual:tCancelled])
         [self cancelled:self.data];
-        self.handler(tCancelled, self.data, self.error);
-    } else if ([keyPath isEqual:tFinished]) {
-        self.handler(tFinished, self.data, self.error);
-    }
+
+    self.handler(self, self.data);
 
     [super observeValueForKeyPath:keyPath
                          ofObject:object

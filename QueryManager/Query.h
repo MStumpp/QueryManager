@@ -9,14 +9,15 @@
 #import <Foundation/Foundation.h>
 #import "QueryManager.h"
 
-typedef void(^QueryCompletionHandler)(NSString *state, id data, NSError *error);
-
 @class Queue;
+@class Query;
+
+typedef void(^QueryCompletionHandler)(Query *query, id data);
 
 @interface Query : NSOperation
 +(Query*)instanceWithQueue:(Queue*)queue;
--(Query*)execute:(id)data onCompletion:(QueryCompletionHandler)handler;
--(Query*)execute:(id)data withPrio:(NSInteger)p onCompletion:(QueryCompletionHandler)handler;
+-(Query*)execute:(id)data onStateChange:(QueryCompletionHandler)handler;
+-(Query*)execute:(id)data withPrio:(NSInteger)p onStateChange:(QueryCompletionHandler)handler;
 -(void)loaded;
 -(void)setData:(id)data;
 -(void)setError:(NSError*)error;
