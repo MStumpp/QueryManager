@@ -20,7 +20,5 @@ typedef void(^QueryCompletionHandler)(Query *query, id data);
 -(Query*)execute:(id)data withPrio:(NSInteger)p onStateChange:(QueryCompletionHandler)handler;
 -(void)loaded;
 -(void)setData:(id)data;
--(void)setError:(NSError*)error;
 -(id)data;
--(NSError*)error;
 @end

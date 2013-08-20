@@ -11,7 +11,6 @@
 @interface Query()
 @property (nonatomic, assign) Queue* queue;
 @property (nonatomic, assign) id data;
-@property (nonatomic, assign) NSError *error;
 @property (nonatomic, copy) QueryCompletionHandler handler;
 @property dispatch_semaphore_t sema;
 @end
@@ -84,19 +83,9 @@
     self.data = data;
 }
 
--(void)setError:(NSError*)error
-{
-    self.error = error;
-}
-
 -(id)data
 {
     return self.data;
-}
-
--(NSError*)error
-{
-    return self.error;
 }
 
 /////
