@@ -20,9 +20,13 @@ static QueryManager *classInstance = nil;
 {
     if (classInstance == nil) {
         classInstance = [[super allocWithZone:nil] init];
-        classInstance.queue = [Queue new];
     }
     return classInstance;
+}
+
+-(Queue*)createQueueWithName:(NSString*)name
+{
+    return self.queue = [[Queue alloc] initWithName:name];
 }
 
 -(Queue*)queueWithName:(NSString*)name

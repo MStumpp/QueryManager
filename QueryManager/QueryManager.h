@@ -22,7 +22,7 @@
 @interface QueryManager : NSObject
 
 +(QueryManager*)instance;
--(Queue*)initQueueWithName:(NSString*)name;
+-(Queue*)createQueueWithName:(NSString*)name;
 -(Queue*)queueWithName:(NSString*)name;
 
 @end
