@@ -12,7 +12,7 @@
 
 -(Queue*)initWithName:(id)name
 {
-    [self initWithName:name maxConcurrentOperationCount:NSOperationQueueDefaultMaxConcurrentOperationCount];
+    return [self initWithName:name maxConcurrentOperationCount:NSOperationQueueDefaultMaxConcurrentOperationCount];
 }
 
 -(Queue*)initWithName:(id)name maxConcurrentOperationCount:(int)maxConcurrentOperationCount;
