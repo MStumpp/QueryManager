@@ -9,7 +9,7 @@
 #import "QueryManager.h"
 
 @interface QueryManager()
-@property (strong, nonatomic) Queue *queue;
+@property Queue *queue;
 @end
 
 @implementation QueryManager

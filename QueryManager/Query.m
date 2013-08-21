@@ -9,9 +9,9 @@
 #import "Query.h"
 
 @interface Query()
-@property (nonatomic, assign) Queue* queue;
-@property (nonatomic, assign) id data;
-@property (nonatomic, copy) QueryCompletionHandler handler;
+@property Queue* queue;
+@property id data;
+@property QueryCompletionHandler handler;
 @property dispatch_semaphore_t sema;
 @end
 
