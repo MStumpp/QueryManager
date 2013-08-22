@@ -10,7 +10,6 @@
 
 @interface Query()
 @property Queue* queue;
-@property id data;
 @property QueryCompletionHandler handler;
 @property dispatch_semaphore_t sema;
 @end
@@ -76,16 +75,6 @@
 -(void)loaded
 {
     dispatch_semaphore_signal(self.sema);
-}
-
--(void)setData:(id)data
-{
-    self.data = data;
-}
-
--(id)data
-{
-    return self.data;
 }
 
 /////
