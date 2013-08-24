@@ -15,7 +15,9 @@
 typedef void(^QueryCompletionHandler)(Query *query, id data);
 
 @interface Query : NSOperation
-@property id data;
+@property (retain) id data;
+@property Queue* queue;
+@property BOOL someCheckIsTrue;
 +(Query*)instanceWithQueue:(Queue*)queue;
 -(Query*)execute:(id)data onStateChange:(QueryCompletionHandler)handler;
 -(Query*)execute:(id)data withPrio:(NSInteger)p onStateChange:(QueryCompletionHandler)handler;

@@ -9,16 +9,16 @@
 #import "Query.h"
 
 @interface Query()
-@property Queue* queue;
-@property QueryCompletionHandler handler;
-@property dispatch_semaphore_t sema;
+@property (copy) QueryCompletionHandler handler;
 @end
 
 @implementation Query
 
 +(Query*)instanceWithQueue:(Queue*)queue
 {
-    Query *instance = [self new];
+    if (!queue)
+        [NSException raise:@"queue must not be null" format:@"queue must not be null"];
+    Query *instance = [[self alloc] init];
     instance.queue = queue;
     [instance addObserver:instance forKeyPath:tReady options:NSKeyValueObservingOptionNew context:NULL];
     [instance addObserver:instance forKeyPath:tExecuting options:NSKeyValueObservingOptionNew context:NULL];
@@ -26,7 +26,7 @@
     [instance addObserver:instance forKeyPath:tFinished options:NSKeyValueObservingOptionNew context:NULL];
     return instance;
 }
-
+ 
 -(Query*)execute:(id)data onStateChange:(QueryCompletionHandler)handler;
 {
     return [self execute:data withPrio:NSOperationQueuePriorityNormal onStateChange:handler];
@@ -45,9 +45,14 @@
 {
     @try
     {
-        self.sema = dispatch_semaphore_create(1);
+        self.someCheckIsTrue = YES;
+
         [self load:self.data];
-        dispatch_semaphore_wait(self.sema, DISPATCH_TIME_FOREVER);
+
+        while (self.someCheckIsTrue) 
+        { 
+            [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:[NSDate distantFuture]]; 
+        } 
     }
 
     @catch(NSException *e)
@@ -64,17 +69,18 @@
     if ([keyPath isEqual:tCancelled])
         [self cancelled:self.data];
 
-    self.handler(self, self.data);
+    if (self.handler)
+        self.handler(self, self.data);
 
-    [super observeValueForKeyPath:keyPath
-                         ofObject:object
-                           change:change
-                          context:context];
+    // [super observeValueForKeyPath:keyPath
+    //                      ofObject:object
+    //                        change:change
+    //                       context:context];
 }
 
 -(void)loaded
 {
-    dispatch_semaphore_signal(self.sema);
+    self.someCheckIsTrue = NO;
 }
 
 /////
