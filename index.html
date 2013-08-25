@@ -86,14 +86,13 @@
 -(void)load:(id)data
 {
     - do the main stuff
-    - whenever possible, check [self isCancelled], cancel if possible
-    - must call [self loadedWithData:data andError:error] when finished
+    - check [self isCancelled], cancel if possible
+    - must call [self loaded] when finished
 }
 
 -(void)cancelled:(id)data
 {
     - called exactly once
-    - can call setData and/or setError before onCompletion handler gets called
 }
 @end
 </code></pre>
@@ -101,7 +100,7 @@
 <h3>
 <a name="create-an-instance" class="anchor" href="#create-an-instance"><span class="octicon octicon-link"></span></a>Create an instance</h3>
 
-<pre><code>Query *query = [[QueryImpl instanceWithQueue:queue] execute:(id)data onCompletion:^(int state, id data, NSError *error) {
+<pre><code>Query *query = [[QueryImpl instanceWithQueue:queue] execute:(id)data onStateChange:^(Query *query, id data) {
    ...
 }];
 </code></pre>
