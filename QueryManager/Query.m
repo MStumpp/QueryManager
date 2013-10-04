@@ -35,6 +35,8 @@
 -(Query*)execute:(id)data withPrio:(NSInteger)p onStateChange:(QueryCompletionHandler)handler
 {
     self.data = data;
+    if (!self.data)
+        self.data = [NSMutableDictionary dictionary];
     self.handler = handler;
     [self setQueuePriority:p];
     [self.queue addOperation:self];
