@@ -10,6 +10,7 @@
 
 @interface Query()
 @property (copy) QueryCompletionHandler handler;
+@property id context;
 @end
 
 @implementation Query
@@ -27,17 +28,16 @@
     return instance;
 }
  
--(Query*)execute:(id)data onStateChange:(QueryCompletionHandler)handler;
+-(Query*)execute:(id)props context:(id)context onStateChange:(QueryCompletionHandler)handler;
 {
-    return [self execute:data withPrio:NSOperationQueuePriorityNormal onStateChange:handler];
+    return [self execute:props context:context withPrio:NSOperationQueuePriorityNormal onStateChange:handler];
 }
 
--(Query*)execute:(id)data withPrio:(NSInteger)p onStateChange:(QueryCompletionHandler)handler
+-(Query*)execute:(id)props context:(id)context withPrio:(NSInteger)p onStateChange:(QueryCompletionHandler)handler
 {
-    self.data = data;
-    if (!self.data)
-        self.data = [NSMutableDictionary dictionary];
+    self.props = props;
     self.handler = handler;
+    self.context = context;
     [self setQueuePriority:p];
     [self.queue addOperation:self];
     return self;
@@ -49,7 +49,7 @@
     {
         self.someCheckIsTrue = YES;
 
-        [self load:self.data];
+        [self load:self.props];
 
         while (self.someCheckIsTrue) 
         { 
@@ -68,16 +68,16 @@
                        change:(NSDictionary *)change
                       context:(void *)context
 {
+    //[super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
+    
     if ([keyPath isEqual:tCancelled])
-        [self cancelled:self.data];
+        [self cancelled:self.props];
 
-    if (self.handler)
-        self.handler(self, self.data);
-
-    // [super observeValueForKeyPath:keyPath
-    //                      ofObject:object
-    //                        change:change
-    //                       context:context];
+    if (self.handler) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            self.handler(keyPath, self.result, self.error, self.context);
+        });
+    }
 }
 
 -(void)loaded
@@ -92,14 +92,13 @@
 // main operation code goes here
 // check if cancelled [self isCancelled] whenever possible
 
--(void)load:(id)data
+-(void)load:(id)props
 {
-    return;
+    [self loaded];
 }
 
--(void)cancelled:(id)data
+-(void)cancelled:(id)props
 {
-    return;
 }
 
 @end
